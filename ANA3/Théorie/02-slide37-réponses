@@ -1,0 +1,21 @@
+#Ex2:
+A: Pas de distinction d'acteurs, tout le monde est traité comme un client.
+B: Distinction entre acteurs par leurs actions.
+    -> Internaute peut seulement CONSULTER mais pas ACHETER
+    -> Client peut ACHETER mais pas CONSULTER
+C: Distinction entre internautes et clients.
+    -> Internaute peut seulement CONSULTER mais pas ACHETER
+    -> Client peut faire les deux
+D: Héritage. Pas de distinction totale: Un client peut faire tout ce que l'internaute fait, et en plus il peut ACHETER.
+
+#Ex3:
+A: L'acteur est un OBJET (->téléphone) L'objet est utilisé par le client pour consulter son compte.
+    -> On écrira les actions que le TELEPHONE peut faire (on ne décrit pas le client)
+    -> On insiste sur l'objet
+B: L'accent n'est plus sur l'objet, mais sur le client qui possède l'objet.
+C: Différentes actions possibles pour le client.
+    -> On insiste sur les actions de l'acteur
+D: On généralise tout. (PC, téléphone, etc) on consulte un compte
+
+#Ex4:
+Réaliser un User Case (UC)

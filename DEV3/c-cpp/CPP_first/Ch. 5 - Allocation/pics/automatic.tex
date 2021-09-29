@@ -1,0 +1,90 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{mathabx}
+\usepackage{listings}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+
+\node at (-5,-2.5) 
+{
+	\begin{lstlisting}
+	sizeof(int) = 4
+	\end{lstlisting}
+};
+
+\node[draw] (x) at (-5,0) 
+{
+	\begin{lstlisting}
+	{	
+		...
+		int x = 174; //&x = 0xF0C
+		char c = 'a';
+		...
+	}
+	\end{lstlisting}
+};
+
+\node (stack) at (3,3.5) {\Large{Pile}};
+
+
+\foreach \i/\j in {-5/0xF0D,-4/0xF0C,-3/0xF0B,-2/0xF0A,-1/0xF09,0/0xF08,1/0xF07}
+{
+	\draw (1,\i) rectangle (5,\i+1);
+	\node at (0,\i + 0.5) {\j};
+}
+
+\draw[dashed] (1,2) -- (1,3);
+\draw[dashed] (5,2) -- (5,3);
+\draw[dashed] (1,-6) -- (1,-5);
+\draw[dashed] (5,-6) -- (5,-5);
+
+\filldraw[red!40,fill=red!40,rounded corners = 2mm] (1.2,-3.8) rectangle (4.8,-0.2) node[black,midway,rotate=45] {\Huge$174$};
+\filldraw[blue!60,fill=blue!60,rounded corners = 2mm] (1.2,0.2) rectangle (4.8,0.8) node[black,midway] {'a'};
+
+\node[right] at (5.2,-3.5) {$\leftsquigarrow x$};
+\node[right] at (5.2,0.5) {$\leftsquigarrow c$};
+
+\node[text width=3cm, align= flush center] at (3,-7) {\large{$x$ et $c$ sont détruits en fin de bloc}};
+
+\end{tikzpicture}
+\end{document}

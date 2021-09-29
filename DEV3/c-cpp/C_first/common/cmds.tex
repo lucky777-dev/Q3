@@ -1,0 +1,48 @@
+%styles
+\theoremstyle{definition}
+\newtheorem{thm}{Théorème}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{deff}[thm]{Définition}
+\newtheorem{prop}[thm]{Propriété}
+\newtheorem{lem}[thm]{Lemme}
+\newtheorem*{lem*}{Lemme}
+\newtheorem{cor}[thm]{Corollaire}
+%\newtheorem{example}{Exemple}
+\newtheorem{remark}{Remarque}
+\newtheorem{exo}{Exercice}
+
+%typeset
+\newcommand{\ie}{{\emph{i.e., }}}
+\newcommand{\eg}{{\emph{e.g., }}}
+\newcommand{\etal}{{\emph{et al.}}}
+\newcommand{\rrceil}{\unichar{"2308}}
+\newcommand{\sloand}[2]{\footnote{N. J. A. Sloane - OEIS Foundation - \texttt{www.oeis.org}, Sequence #1 - #2.}}
+
+%math
+\newcommand{\IN}{{\mathbb N}}
+\newcommand{\IQ}{{\mathbb Q}}
+\newcommand{\IR}{{\mathbb R}}
+\newcommand{\IZ}{{\mathbb Z}}
+\newcommand{\IP}{{\mathbb P}}
+\newcommand{\IC}{{\mathbb C}}
+\newcommand{\bigo}{{\mathcal{O}}}
+\renewcommand{\mod}{\bmod}
+\newcommand{\ssi}{\Leftrightarrow}
+\newcommand{\then}{\Rightarrow}
+\newcommand{\fle}[1]{\stackrel{#1}{\longrightarrow}}
+\newcommand{\suchthat}{~\big|~}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+%tikz
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1mm, inner sep=0pt]
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\newcommand{\cpp}{\texttt{C++}}
+\newcommand{\java}{\texttt{Java}}

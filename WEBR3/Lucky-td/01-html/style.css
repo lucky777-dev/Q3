@@ -1,0 +1,30 @@
+p { /* Paragraphe */
+    color: blue;
+}
+
+p:hover { /* When cursor on text */
+    font-weight: bold;
+}
+
+p:last-child {
+    font-style: italic;
+}
+
+.maClasse {
+    text-align: center;
+}
+
+.ma2emeClasse {
+    color: blueviolet;
+}
+
+a:visited { /*Visited links*/
+    color: darkred;
+}
+
+footer {
+    color: darkgray;
+    font-style: italic;
+    font-size: small;
+    text-align: center;
+}

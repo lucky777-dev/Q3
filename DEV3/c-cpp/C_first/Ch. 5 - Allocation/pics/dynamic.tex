@@ -1,0 +1,113 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{mathabx}
+\usepackage{listings}
+\usepackage{pgflibraryshapes}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+
+\node at (-6,-2.5) 
+{
+	\begin{lstlisting}
+	sizeof(int) = 4
+	sizeof(int*) = 8 //x64
+	\end{lstlisting}
+};
+
+\node[draw] (x) at (-6,0) 
+{
+	\begin{lstlisting}
+	{	
+		...
+		int * x = new int(174); //&x = 0xF08
+														//&*x = 0xFF4
+		...
+	}
+	\end{lstlisting}
+};
+
+%stack
+\node (stack) at (3,6.5) {\Large{Pile}};
+
+
+\foreach \i/\j in {-5/0xF07,-4/0xF08,-3/0xF09,-2/0xF0A,-1/0xF0B,0/0xF0C,1/0xF0D,2/0xF0E,3/0xF0F,4/0xF10}
+{
+	\draw (1,\i) rectangle (5,\i+1);
+	\node at (0,\i + 0.5) {\j};
+}
+
+\draw[dashed] (1,5) -- (1,6);
+\draw[dashed] (5,5) -- (5,6);
+\draw[dashed] (1,-6) -- (1,-5);
+\draw[dashed] (5,-6) -- (5,-5);
+
+\filldraw[red!40,fill=red!40,rounded corners = 2mm] (1.2,-3.8) rectangle (4.8,3.8) node[very thick,purple,midway,ellipse,draw,rotate=67.5] (addx) {\color{black}\Huge \tt 0xFF4};
+
+\node[text width=3cm, align= flush center] at (3,-7) {\large{$x$ est détruit en fin de bloc}};
+\node[right] at (5.2,-3.5) {$\leftsquigarrow x$};
+
+%%heap
+\node (stack) at (9,6.5) {\Large{Tas}};
+
+
+\foreach \i/\j in {-5/0xFF1,-4/0xFF2,-3/0xFF3,-2/0xFF4,-1/0xFF5,0/0xFF6,1/0xFF7,2/0xFF8,3/0xFF9,4/0xFFA}
+{
+	\draw (7,\i) rectangle (11,\i+1);
+	\node at (12,\i + 0.5) {\j};
+}
+
+\draw[dashed] (7,5) -- (7,6);
+\draw[dashed] (11,5) -- (11,6);
+\draw[dashed] (7,-6) -- (7,-5);
+\draw[dashed] (11,-6) -- (11,-5);
+
+\filldraw[purple,fill=purple,rounded corners = 2mm] (7.2,-1.8) rectangle (10.8,1.8) node[purple,midway,rotate=45] {\color{black}\Huge $174$};
+
+\coordinate (x) at (7,-2);
+\draw[->,purple,very thick] (addx.west) to[out=247.5, in=225] (x);
+\node[left] at (6.8,-1.5) {$*x \rightsquigarrow$};	
+
+\node[text width=3cm, align= flush center] at (9,-7) {\large{$*x$ est détruit par \lstinline|delete|}};
+
+\end{tikzpicture}
+\end{document}

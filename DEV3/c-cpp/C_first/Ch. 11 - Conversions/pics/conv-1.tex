@@ -1,0 +1,82 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{listings}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+\node at (1.5,0.75) 
+{
+	\begin{lstlisting}
+int i = a + 3;
+	\end{lstlisting}
+};
+
+\node[draw] (frac) at (0,0) {\texttt{fraction}};
+\node[draw] (i1) at (3,0)
+{
+	\begin{lstlisting}
+int
+	\end{lstlisting}
+};
+
+\node[draw] (i2) at (0,-1.5)
+{
+	\begin{lstlisting}
+int
+	\end{lstlisting}
+};
+
+\node[draw] (p) at (1.5,-3) {\texttt{+}};
+
+\node[draw] (i3) at (1.5,-4.5)
+{
+	\begin{lstlisting}
+int
+	\end{lstlisting}
+};
+
+\draw[_arc] (frac.south) -- (i2.north);
+\draw[_arc] (i2.south) -- (0,-3) -- (p.west);
+\draw[_arc] (i1.south) -- (3,-3) -- (p.east);
+\draw[_arc] (p.south) -- (i3.north);
+\end{tikzpicture}
+\end{document}

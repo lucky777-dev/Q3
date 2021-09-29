@@ -1,0 +1,616 @@
+\input{../common/header.tex}
+\input{../common/cmds.tex}
+
+\title{Ch. 9 - Exceptions}
+
+\begin{document}
+\input{../common/front.tex}
+
+\section{Introduction}
+
+%intro str str p367
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}[<+->]
+\item Servent à gérer un comportement \emph{exceptionnel} du programme
+	\begin{itemize}
+	\item Ne pas abuser du mécanisme.
+	\end{itemize}
+\item Mécanisme similaire aux exceptions en Java.
+	\begin{itemize}
+	\item Blocs try/catch.
+	\end{itemize}
+\item Mécanisme de gestionnaire similaire.
+	\begin{itemize}
+	\item Ordre des \texttt{catch} a de l'importance.
+	\end{itemize}
+\item On peut lancer n'importe quel objet en \cpp.
+	\begin{itemize}
+	\item Pas de superclasse d'exceptions.
+	\end{itemize}
+\item Plusieurs classes d'exception sont implémentées dans \texttt{stdexcept.h}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{array.cpp}
+\end{itemize}
+\begin{lstlisting}
+class array
+{
+	int n; double * tab;
+	
+	public:
+		double & operator [] (int i)
+		{
+			rangeCheck(i);
+			return tab[i];
+		}
+
+	private:
+		inline void rangeCheck(int i)
+		{
+			if(i < 0 || i >= n)
+			{
+				string s = "out of range : size of ";
+				s += to_string(n);
+				s += " , accessed at ";
+				s += to_string(i);
+				throw out_of_range(s);
+			}
+		}
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{array.cpp}
+\end{itemize}
+\begin{lstlisting}
+int main()
+{
+	array v(5);
+
+	for(int i = 0; i < 5; i++)
+		v[i] = i * i;
+
+	for(int i = 0; i < 5; i++)
+		cout << v[i] << endl;
+
+	v[0] = 2;
+	
+	try
+	{
+		v[-1] = 4;
+	}
+	catch(const out_of_range& e)
+	{
+		cout << e.what() << endl;
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Garanties d'exceptions}
+\begin{itemize}[<+->]
+\item Dans la conception d'un programme, on peut fournir diverses garanties en termes d'exceptions
+	\begin{enumerate}
+	\item \textbf{Aucune exception} : garantie de succès des opérations
+	\item \textbf{Garantie forte} : les opérations peuvent échouer, mais sans effet de bord
+	\item \textbf{Garantie de base} : les opérations peuvent échouer et elles peuvent avoir des effets de bord, mais les invariants sont préservés et aucune ressource n'est bloquée ou perdue (locks, leaks, etc.)
+	\item \textbf{Aucune garantie}
+	\end{enumerate}
+\item On veut la plus forte garantie possible, mais au minimum « la base »
+	\begin{itemize}
+	\item Clause \texttt{finally}, \texttt{try with resource}, destructeurs, etc.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Généralités}
+
+\begin{frame}
+\frametitle{Spécification de prototype}
+\begin{itemize}[<+->]
+\item Une fonction peut spécifier les exceptions qu'elle est capable de lancer.
+\item Les exceptions non prévues appellent la fonction \texttt{unexpected}
+	\begin{itemize}
+	\item Peut appeler \texttt{terminate} (non standard, cf. ci-après).
+	\item Peut être définie avec \texttt{set\_unexpected}
+	\end{itemize}
+\end{itemize}
+\begin{exampleblock}<+->{Exemple}
+	\begin{itemize}
+	\item \lstinline|void f() throw (A, B) \{ ... \}|
+	\item Similaire à 
+		\begin{itemize}
+		\item \lstinline|try \{ ... \}|
+		\item \lstinline|catch(const A & a) \{ throw; \}|
+		\item \lstinline|catch(const B & b) \{ throw; \}|
+		\item \lstinline|catch(...) \{ unexpected(); \}|
+		\end{itemize}
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{Design et performances}
+\begin{itemize}[<+->]
+\item En \cpp, traiter un bloc try/catch prend autant de temps qu'un bloc normal d'instructions, \emph{si} aucune exception n'est lancée
+	\begin{itemize}
+	\item Pas de perte de performances
+	\end{itemize}
+\item Implémenté via des tables statiques
+\item À chaque instruction susceptible de lancer une exception, on enregistre dans une table quelques informations permettant de trouver la clause \lstinline|catch| correspondante
+	\begin{itemize}
+	\item Mécanisme similaire au gestionnaire d'interruptions système
+	\end{itemize}
+\item Possibilité d'indiquer qu'une fonction ne lance \emph{jamais} d'exception grâce au mot-clé \lstinline|noexcept|
+	\begin{itemize}
+	\item Offre des optimisations compilatoires
+	\end{itemize}
+\item Simple indication, pas une contrainte
+	\begin{itemize}
+	\item Si une exception est lancée au sein d'une fonction \lstinline|noexcept|, \texttt{terminate} est appelée
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{noexcept.cpp}
+\end{itemize}
+\begin{lstlisting}
+struct A
+{
+	int f() noexcept { return 1; }
+};
+
+struct B : A
+{
+	int f() { return 2; } //ok, noexcept inherited
+};
+
+void f() noexcept;
+
+void f() {} //ko : different exception specifier
+\end{lstlisting}
+\end{frame}
+
+\section{Contexte de lancement}
+
+\begin{frame}
+\frametitle{Portée}
+\begin{itemize}[<+->]
+\item Une variable automatique crée dans un bloc est locale à un bloc
+\item Effectuer un \lstinline|throw| change le contexte
+	\begin{itemize}
+	\item On change de bloc après un \lstinline|throw|.
+	\end{itemize}
+\item Destruction synchrone des objets automatiques.
+	\begin{itemize}
+	\item Pas les objets dynamiques
+	\end{itemize}
+\end{itemize}
+\begin{alertblock}<+->{Problème}
+	\begin{itemize}[<+->]
+	\item Comment gérer des objets dynamiques dans un bloc \lstinline|try|  ?
+	\end{itemize}
+\end{alertblock}
+\begin{exampleblock}<+->{Solution}
+	\begin{itemize}[<+->]
+	\item Ne pas créer de tels objets (contraignant).
+	\item Utiliser des « pointeurs intelligents ».
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{no-dest.cpp}
+\end{itemize}
+\begin{lstlisting}
+struct A 
+{
+	~A()
+	{
+		cout << "-A" << endl;
+	}
+};
+
+int main()
+{
+	try
+	{
+		A * a = new A();
+		throw 0;
+	}
+	catch(const int & i)
+	{
+		cout << "Error" << endl;
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Transmission des exceptions}
+\begin{itemize}[<+->]
+\item Les exceptions sont toujours transmises par valeur.
+	\begin{itemize}
+	\item Même si on lance une référence
+	\end{itemize}
+\item Nécessité : comme on change de contexte, les variables automatiques sont détruites.
+\item Si on lance un pointeur, il faut s'assurer qu'il ne pointe pas vers une variable automatique locale au bloc.
+\end{itemize}
+\begin{exampleblock}<+->{Erreur probable}
+	\begin{itemize}[<+->]
+	\item \lstinline|A * a = new A;|
+	\item \lstinline|throw a;|
+	\end{itemize}
+\end{exampleblock}
+\begin{itemize}[<+->]
+\item Bonne pratique : lancer un objet automatique ou un pointeur intelligent. Éviter de lancer du dynamique.
+\item En général, on « attrape » les exceptions par référence constante
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{scope.cpp}
+\end{itemize}
+\begin{lstlisting}
+void f(int& n)
+{
+	int i = 1;
+	try
+	{		
+		int& j = i;
+		n++;
+		throw j;
+	}
+	catch(int& j)
+	{
+		n++; //n is accessible
+		j++;
+		cout << "i : " << i << endl; //copied
+		cout << "j : " << j << endl;
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{scope.cpp}
+\end{itemize}
+\begin{lstlisting}
+void g()
+{
+	try
+	{
+		int i = 1;
+		int* pti = &i;
+		throw pti;
+	}
+	catch(int* pti)
+	{
+		cout << "*pti : " << *pti << endl; //undefined behaviour
+	}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Gestion des ressources}
+\begin{itemize}[<+->]
+\item Quand une fonction acquiert une ressource, il est important qu'elle la libère quand elle n'en n'a plus besoin
+\item Souvent, la fonction libère la ressource acquise en fin de bloc, avant \lstinline|return|
+\end{itemize}
+\begin{alertblock}<+->{Problème}
+	\begin{itemize}
+	\item Que faire si une instruction lance une exception entre l'acquisition et la libération des ressources ?
+	\end{itemize}
+\end{alertblock}
+\begin{itemize}[<+->]
+\item En \cpp, il n'existe pas de « try with ressources » comme en \java
+	\begin{itemize}
+	\item ... et on n'en a pas besoin, grâce aux destructeurs
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{bad-ressource.cpp}
+\end{itemize}
+\begin{lstlisting}
+void f()
+{
+	r1.acquire();
+	r2.acquire();
+
+	throw 1;
+		
+	r2.liberate();
+	r1.liberate();	
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{mediocre-ressource.cpp}
+\end{itemize}
+\begin{lstlisting}
+void f()
+{
+	r1.acquire();
+	r2.acquire();
+	
+	try
+	{
+		throw 1;
+	}
+	catch(...)
+	{
+		r2.liberate();
+		r1.liberate();
+
+		throw; // rethrow
+	}
+		
+	r2.liberate();
+	r1.liberate();	
+}
+\end{lstlisting}
+\begin{itemize}
+\item Propice aux erreurs
+	\begin{itemize}
+	\item Copier / coller
+	\item Les programmeurs s'ennuient
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{good-ressource.cpp}
+\end{itemize}
+\begin{lstlisting}
+class ressource_ptr {
+	private:
+		ressource* ptr;
+		bool acquired;
+
+	public:
+		ressource_ptr(ressource& r) : ptr(&r), acquired(r.acquire()) {}
+
+		virtual ~ressource_ptr() {
+			acquired = ptr->liberate();
+		}
+		
+		bool operator() ()  {  return acquired; }
+};
+
+void f() {
+	ressource_ptr ptr1(r1);
+	ressource_ptr ptr2(r2);
+
+	throw 1;
+}
+\end{lstlisting}
+\begin{itemize}
+\item Plus de détails (RAII) dans le chapitre 10, grâce à la sémantique de déplacement
+\end{itemize}
+\end{frame}
+
+\section{Choix de gestionnaire}
+
+\begin{frame}
+\frametitle{Règle de base}
+\begin{alertblock}<+->{Règle}
+	\begin{itemize}[<+->]
+	\item L'ordre dans lequel sont spécifiées les \texttt{catch} a de l'importance.
+	\end{itemize}
+\end{alertblock}
+\begin{itemize}[<+->]
+\item Similaire à ce qui se passe en \java.
+\item Quand une exception est lancée, le gestionnaire d'exceptions recherche un bloc \texttt{catch} « approprié » suivant certaines propriétés.
+\item Si aucun \texttt{catch} approprié n'est trouvé, le gestionnaire renvoie l'exception à la fonction appelante.
+	\begin{itemize}
+	\item On cherche un bloc \texttt{catch} approprié chez l'appelant.
+	\end{itemize}
+\item On répète ce processus jusqu'à la fonction \texttt{main}. Si aucun bloc \texttt{catch} correct n'est trouvé, la fonction \texttt{terminate} est appelée.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Priorité de recherche}
+\begin{itemize}[<+->]
+\item Quand une exception de type \texttt{T} est lancée, on cherche avant tout, de haut en bas (séquentiellement)
+	\begin{enumerate}
+	\item une correspondance exacte
+		\begin{itemize}
+		\item \lstinline|T|, \lstinline|T&|, \lstinline|const T|, \lstinline|const T&|
+		\item \lstinline|const| n'intervient pas : transmission par valeur
+		\end{itemize}
+	\item une classe de base \texttt{S} de \texttt{T}
+		\begin{itemize}
+		\item Bonne pratique : spécifier les \lstinline|catch| de classes dérivées avant les \lstinline|catch| des classes de base.
+		\end{itemize}	
+	\item un gestionnaire de type quelconque
+		\begin{itemize}
+		\item \lstinline|catch(...)|
+		\end{itemize}
+	\end{enumerate}
+\item Dès qu'un gestionnaire correspond, on l'exécute sans se préoccuper des autres.
+\item Aucune conversion implicite n'est effectuée, même non dégradante.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{gest.cpp}
+\end{itemize}
+\begin{lstlisting}
+struct exceptA {};                                                      
+struct exceptB : exceptA {};                                            
+struct exceptC : exceptB {};                                            
+
+void f()
+{ throw exceptB(); //throw 1.; }
+
+int main()
+{
+	try             
+	{
+		f(); cout << "Fine" << endl;
+	}
+	catch(exceptA e)
+		{ cout << "I caught an A" << endl; }
+	catch(exceptB e)
+		{ cout << "I caught a B" << endl; }
+	catch(exceptC e)
+		{ cout << "I caught a C" << endl; }
+	catch(int d)
+		{ cout << "I caught an int" << endl; }
+	catch(...)
+		{ cout << "I caught something" << endl; }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Fonctions de terminaison}
+\begin{itemize}[<+->]
+\item Le standard fournit plusieurs fonctions permettant de terminer brutalement l'exécution d'un programme.
+\item Permet de gérer un comportement inattendu du programme (bug), voire de notifier l'OS du type d'erreur rencontrée.
+\item Il en existe trois :
+	\begin{enumerate}
+	\item \texttt{abort}
+	\item \texttt{exit}
+	\item \texttt{terminate} (\cpp 11)
+	\end{enumerate}
+\item Gestion « plus fine » que \texttt{System.exit(int)} en \java.
+\item Ne pas abuser : gérer vos exceptions est de première importance.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\texttt{abort}}
+\begin{itemize}[<+->]
+\item Dénote une fin « anormale » du programme
+\item Change le flag POSIX \texttt{SIGABRT}
+	\begin{itemize}
+	\item Si un handler a été mis en place pour ce flag, il est utilisé.
+	\item Le programme se termine
+	\end{itemize}
+\item Utilisé classiquement quand une erreur non attendue se produit, comme un bug de programmation.
+\item Exemple
+	\begin{itemize}
+	\item Une exception qui n'est pas supposée se lancer se lance.
+	\item Un pointeur est \texttt{null} alors qu'il ne devrait pas l'être.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\texttt{exit}}
+\begin{itemize}[<+->]
+\item Dénote une fin « normale » du programme.
+\item Peut néanmoins indiquer un échec, mais pas un bug.
+	\begin{itemize}
+	\item Une expression ne peut pas être décomposée.
+	\item Un fichier ne peut pas être lu.
+	\end{itemize}
+\item On peut invoquer \texttt{exit} avec un code d'erreur.
+	\begin{itemize}
+	\item Par défaut, $0$ indique une sortie du programme avec succès.
+	\end{itemize}
+\item Les sorties de programme avec \texttt{exit} peut également être gérées par le système d'exploitation.
+	\begin{itemize}
+	\item Fonctions \texttt{atexit} et \texttt{on\_exit}.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\texttt{std::terminate}}
+\begin{itemize}[<+->]
+\item Automatiquement appelé par \cpp\ quand une exception non gérée est lancée.
+\item Par défaut, appelle \texttt{abort}
+\item Redéfinition possible via \texttt{std::set\_terminate}
+\item Habituellement, on veut gérer toutes les exceptions possibles.
+	\begin{itemize}
+	\item Et donc ne pas appeler \texttt{exit} ou \texttt{abort}.
+	\end{itemize}
+\item Utilisation de \texttt{terminate} à ne pas abuser
+	\begin{itemize}
+	\item Le système d'exploitation ne peut pas savoir ce qui a provoqué \texttt{terminate}.
+	\item ... contrairement à \texttt{exit} et \texttt{abort}.
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Les exceptions standard}
+
+\begin{frame}
+\frametitle{Exceptions standard (1/2)}
+\begin{itemize}
+\onslide<1-> \item Il existe plusieurs classes d'exceptions standard définies dans \texttt{stdexcept.h}
+\onslide<2-> 
+\item \texttt{exception}
+	\begin{itemize}
+	\item \texttt{logic\_error}
+		\begin{itemize}
+		\item \texttt{domain\_error}
+		\item \texttt{invalid\_argument}
+		\item \texttt{length\_error}
+		\item \texttt{out\_of\_range}
+		\end{itemize}
+	\item \texttt{runtime\_error}
+		\begin{itemize}
+		\item \texttt{range\_error}
+		\item \texttt{overflow\_error}
+		\item \texttt{underflow\_error}
+		\end{itemize}
+	\end{itemize}
+\item \texttt{bad\_alloc}
+\item \texttt{bad\_cast}
+\item \texttt{bad\_exception}
+\item \texttt{bad\_typeid}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Exceptions standard (2/2)}
+\begin{itemize}[<+->]
+\item \texttt{bad\_alloc} : échec d'allocation mémoire par \texttt{new}
+\item \texttt{bad\_cast} : échec de l'opérateur \lstinline|dynamic_cast|
+\item \texttt{bad\_typeid} : échec de la fonction \texttt{typeid}
+\item \texttt{bad\_exception} : erreur de spécification d'exception, parfois lancée dans certaines implémentations de \texttt{unexpected}
+\item \texttt{out\_of\_range} : dépassement de bornes
+\item \texttt{invalid\_argument} : paramètre d'appel invalide
+\item \texttt{overflow\_error}, \texttt{underflow\_error} : lancée lors d'erreurs de calculs flottants.
+\item La fonction \texttt{what} retourne un \lstinline|const char *| décrivant la nature d'une exception lancée.
+\item Toutes les classes possèdent un constructeur à un argument chaîne de caractère permettant de spécifier cette chaîne.
+%\item Possibilité de définir un gestionnaire particulier pour \texttt{bad\_alloc} avec \texttt{set\_new\_handler} de \texttt{new.h}.
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,521 @@
+\input{../common/header.tex}
+\input{../common/cmds.tex}
+
+\title{Ch. 7 - Fonctions amies}
+
+\begin{document}
+\input{../common/front.tex}
+
+\section{Introduction}
+
+\begin{frame}
+\frametitle{Contexte}
+\begin{itemize}[<+->]
+\item La POO « impose » l'encapsulation des données
+	\begin{itemize}
+	\item Les membres privés ne sont accessibles qu'à l'intérieur de la classe
+	\item Usage de getters et setters
+	\end{itemize}
+\end{itemize}
+\begin{alertblock}<+->{Inconvénient}
+	\begin{itemize}[<+->]
+	\item On peut être amené à faire beaucoup de \texttt{call}
+	\item Légère perte de performance
+	\end{itemize}
+\end{alertblock}
+\begin{exampleblock}<+->{Solutions connues}
+	\begin{enumerate}[<+->]
+	\item Changer les membres en \lstinline|public|
+	\item Utiliser des accesseurs / mutateurs \lstinline|inline|
+	\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple de classe publique}
+\begin{itemize}
+\item Fichier \texttt{public.cpp}
+\end{itemize}
+\begin{lstlisting}
+class point
+{	
+	public :
+		double x,y;
+
+		point(double abs=0, double ord=0) : x(abs), y(ord) {}
+
+		double distance(point p)
+		{
+			return sqrt((x - p.x) * (x - p.x) 
+				+ (y - p.y) * (y - p.y));
+		}
+
+		string toString()
+		{
+			stringstream str;
+			str << "( " << x << " , " << y << " )";		
+			return str.str();
+		}
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple de classe publique}
+\begin{itemize}
+\item Fichier \texttt{public.cpp}
+\end{itemize}
+\begin{lstlisting}
+class circle
+{
+	point center;
+	double radius;
+
+	public :
+		circle(point p, double rad) : center(p), radius(rad) {}
+
+		inline void translate(double x, double y)
+		{
+			center.x += x;
+			center.y += y;
+		}
+
+		string toString()
+		{			
+			stringstream str;
+			str << "Circle of center " << center.toString() << " and of radius " << radius;
+			return str.str();
+		}
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple de classe publique}
+\begin{itemize}
+\item Fichier \texttt{public.cpp}
+\end{itemize}
+\begin{lstlisting}
+int main()
+{
+	point p (1,1);
+	circle c (p, 2);
+
+	cout << p.toString() << endl;
+	cout << c.toString() << endl;
+
+	c.translate(1,-1);
+
+	cout << p.toString() << endl;
+	cout << c.toString() << endl;	
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Debriefing}
+\begin{alertblock}<+->{Problèmes}
+	\begin{itemize}[<+->]
+	\item Violation d'encapsulation
+	\item « Toute le monde » a accès en lecture et écriture sur les attributs
+	\end{itemize}
+\end{alertblock}
+\begin{block}<+->{Avantages}
+	\begin{itemize}[<+->]
+	\item Gain de performances
+		\begin{itemize}
+		\item Pas de \texttt{call}
+		\end{itemize}
+	\item Écriture concise
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple de classe avec accesseurs / mutateurs}
+\begin{itemize}
+\item Fichier \texttt{access.cpp}
+\end{itemize}
+\begin{lstlisting}
+class point
+{	
+	double _x, _y;//ask why I wrote _x
+
+	public :		
+		point(double abs=0, double ord=0) : _x(abs), _y(ord) {}
+
+		double distance(point p)
+		{
+			return sqrt((_x - p._x) * (_x - p._x) 
+				+ (_y - p._y) * (_y - p._y));
+		}
+
+		string toString()
+		{
+			stringstream str;
+			str << "( " << _x << " , " << _y << " )";		
+			return str.str();
+		}
+
+		inline void set(int abs, int ord) { _x = abs; _y = ord; }
+		inline double x() const { return _x; }
+		inline double y() const { return _y; }
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple de classe avec accesseurs / mutateurs}
+\begin{itemize}
+\item Fichier \texttt{access.cpp}
+\end{itemize}
+\begin{lstlisting}
+class circle
+{
+	point _center;
+	double _rad;
+
+	public :
+		circle(point p, double rad) : _center(p), _rad(rad) {}		
+
+		void translate(double x, double y)
+		{
+			_center.set(_center.x() + x, _center.y() + y);
+		}
+
+		string toString()
+		{			
+			stringstream str;
+			str << "Circle of center " << _center.toString() << " and of radius " << _rad;
+			return str.str();
+		}
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Debriefing}
+\begin{alertblock}<+->{Problèmes}
+	\begin{itemize}[<+->]
+	\item Exécutable potentiellement plus gros
+	\end{itemize}
+\end{alertblock}
+\begin{block}<+->{Avantages}
+	\begin{itemize}[<+->]
+	\item Encapsulation respectée
+	\item Obligation de passer par des accesseurs / mutateurs
+	\item Écriture assez concise
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Fonctions amies}
+
+\begin{frame}
+\frametitle{Overview}
+\begin{itemize}[<+->]
+\item Les solutions connues ont des inconvénients qui ne peuvent toujours être ignorés
+\end{itemize}
+\begin{exampleblock}<+->{Idée}
+	\begin{itemize}
+	\item Possibilité de déclarer une fonction / classe \emph{amie} à la définition d'une classe
+	\item Autorise l'accès aux attributs privés pour cette fonction / classe
+	\end{itemize}
+\end{exampleblock}
+\begin{itemize}[<+->]
+\item Plusieurs situations d'amitié possibles
+	\begin{enumerate}
+	\item Fonction indépendante amie d'une classe
+	\item Fonction membre d'une classe A amie d'une classe B
+	\item Toutes les fonctions d'une classe sont amies d'une autre classe
+	\end{enumerate}
+\item Utilisation du mot-clé \lstinline|friend|
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Avantage}
+\begin{itemize}[<+->]
+\item Le \emph{concepteur} d'une classe spécifie quelles autres fonctions / classes sont ses amis
+\item Les amis ont accès aux membres privés comme s'ils étaient publics
+\item Très efficace
+	\begin{itemize}
+	\item Pas de \texttt{call}
+	\end{itemize}
+\item Compromis d'encapsulation
+	\begin{itemize}
+	\item Les attributs ne sont pas visibles depuis l'extérieur
+	\item ... sauf si le concepteur l'a explicitement autorisé
+	\end{itemize}
+\end{itemize}
+\begin{exampleblock}<+->{Remarque}
+	\begin{itemize}[<+->]
+	\item \lstinline|friend| peut déclarer un prototype
+	\item Attention à l'ordre et aux inclusions de fichier
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\section{Relations d'amitié}
+
+\begin{frame}
+\frametitle{Remarques techniques}
+\begin{itemize}[<+->]
+\item Une déclaration d'amitié permet d'accéder aux membres privés (et protégés)
+\item Offre de meilleurs performances
+\item Une déclaration d'amitié peut déclarer un prototype de fonction
+	\begin{itemize}
+	\item Mais pas un prototype de classe
+	\end{itemize}
+\item \emph{Souvent}, l'endroit où une déclaration d'amitié au sein d'une classe est déclarée n'a pas d'importance
+	\begin{itemize}
+	\item Avec des templates (cf. Ch. 13)
+	\end{itemize}
+\end{itemize}
+\begin{block}<+->{Hygiène de programmation}
+	\begin{itemize}[<+->]
+	\item Ne pas abuser
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{Fonction indépendante amie d'une classe}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{indep.cpp}
+\end{itemize}
+\begin{lstlisting}
+class point
+{
+	int x, y;
+	
+	public:
+		point(int abs = 0, int ord = 0)  : x(abs), y(ord) {}
+		
+		friend bool coincide(const point &, const point &);
+};
+
+int main()
+{
+	point a(1,0), b(1), c;
+	if(coincide(a,b))
+		cout << "a coincide avec b" << endl;
+	else
+		cout << "a et b sont différents" << endl;		
+	if(coincide(a,c))
+		cout << "a coincide avec c" << endl;
+	else
+		cout << "a et c sont différents" << endl;
+}
+
+bool coincide(const point & p, const point & q) { return ((p.x == q.x) && (p.y == q.y)); }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Remarques}
+\begin{itemize}[<+->]
+\item L'emplacement de la déclaration d'amitié de \texttt{coincide} au sein de \texttt{point} n'a pas d'importance
+\item Cette déclaration déclare également un prototype
+	\begin{itemize}
+	\item Possibilité d'utiliser \texttt{coincide} dans \texttt{main} avant une « vraie » déclaration
+	\end{itemize}
+\item La déclaration d'amitié déclare une fonction indépendante car absence de paramètre implicite
+	\begin{itemize}
+	\item Deux paramètres, pas de classe, etc.
+	\end{itemize}
+\item En général, une fonction amie d'une classe possède un ou plusieurs arguments du type de cette classe
+	\begin{itemize}
+	\item Ce n'est pas une obligation
+	\end{itemize}
+\item Possibilité de viol d'encapsulation
+	\begin{enumerate}
+	\item Savoir qu'une fonction indépendante est amie d'une classe
+	\item Obtenir le prototype de la fonction indépendante
+	\item Réécrire une fonction de même prototype
+	\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\subsection{Fonction membre amie d'une classe}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{member.cpp}
+\end{itemize}
+\begin{lstlisting}
+class A;  // forward declaration of A needed by B
+
+class B
+{
+	public:
+	    void fB(A& a);
+};
+
+class A
+{
+	int i;
+	public:
+		//specifying function fA as a friend of A, fA is not member function of A
+		friend void fA(A& a);    
+	    
+		//specifying B class member function fB as a friend of A
+		friend void B::fB(A& a); 
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{member.cpp}
+\end{itemize}
+\begin{lstlisting}
+// fA is Friend function of A
+void fA(A& a)
+{
+    a.i  = 11; // accessing and modifying Class A private member i
+    cout << a.i << endl;
+}
+
+// B::fB should be defined after class A definition
+void B::fB(A& a)
+{
+    a.i  = 22; 
+    cout << a.i << endl;
+}
+
+int main()
+{
+    A a;
+    fA(a);    // calling friend function of class A
+
+    B b;
+    b.fB(a);  // calling B class member function fB, B:fB is friend of class A
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Classe amie d'une classe}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{class.cpp}
+\end{itemize}
+\begin{lstlisting}
+class B;
+
+class A
+{
+	int _i;
+	
+	public:
+		A(int i) : _i(i) {}
+		int i() const { return _i; }
+
+		friend class B;
+};
+
+class B
+{
+	A a;
+	int _j;
+	
+	public:
+		B(A a, int j) : a(a), _j(j) {}
+
+		int brol() const { return a._i * _j; }	
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Propagation d'une relation d'amitié}
+\begin{alertblock}<+->{Règles}
+\begin{itemize}[<+->]
+\item Les relations d'amitié ne sont pas transitives
+	\begin{itemize}
+	\item L'ami d'un ami n'est pas votre ami
+	\end{itemize}
+\item L'amitié n'est pas propagée par héritage (Cf. Ch. 11)
+	\begin{itemize}
+	\item Les enfants de votre ami ne sont pas vos amis	
+	\item Vos enfants ne sont pas les amis de votre ami
+	\end{itemize}
+\item À partir de \cpp11, les amis ont accès aux classes internes privées
+\end{itemize}
+\end{alertblock}
+\begin{itemize}[<+->]
+\item Souvent, un choix de design est effectué pour soit
+	\begin{enumerate}
+	\item rendre une classe \texttt{B} entière amie d'une autre classe \texttt{A}
+	\item faire d'une classe \texttt{B} une classe interne d'une autre classe \texttt{A}
+	\end{enumerate}
+\item Règles particulières dans le cas de templates (Cf. Ch. 13)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{subclassing.cpp}
+\end{itemize}
+\begin{lstlisting}
+class A
+{
+	int _i;
+	
+	public:
+		A() : _i(2) {}
+		int i() const { return _i; }
+
+		friend class M; //class M is a friend of A
+};
+
+class B : public A //A is a subclass of A
+{
+	int _j;
+	
+	public:
+		B() : _j(3) {}
+		int j() const { return _j; }
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+\frametitle{Exemple}
+\begin{itemize}
+\item Fichier \texttt{subclassing.cpp}
+\end{itemize}
+\begin{lstlisting}
+//M is a friend of A and not a friend of its children
+class M
+{
+	int _k;
+
+	public:
+		M(A a) : _k(a._i * 2) {}
+		//M(B b) : _k(b._j * 3) {}
+
+		int k() const { return _k; }
+};
+
+//children of M are neither friends of A or B
+class N : public M
+{
+	int _l;
+
+	public:
+		N(A a) : M(a)/*, _l(a._i * 4)*/ {}
+		N(B b) : M(b)/*, _l(b._j * 5)*/ {}
+
+		int l() const { return _l; }
+};
+\end{lstlisting}
+\end{frame}
+\end{document}

@@ -1,0 +1,25 @@
+.Liaison série asynchrone: forme signal, que veut dire asynchrone (exemple routeur Cisco) 
+
+
+
+.Signaux rectangles:  Fourrier, visualisation  spectre
+
+
+
+.Transformées de Fourier: bat signal
+
+
+.Modulations: AM, QAM, application au cable (DOCSIS) et Wifi
+
+
+.Cable ethernet: photos, interprétation
+
+
+.Wifi et Shannon: bruit, signal, propagation, gamme de fréquences, décibels (dBm)
+
+
+.Nombres complexes: application à  résonance
+
+. Echantillonage et rapport SNR
+
+. Bandes utilisées en 5G et 6E

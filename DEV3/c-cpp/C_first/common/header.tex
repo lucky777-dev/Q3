@@ -1,0 +1,73 @@
+\documentclass{beamer}
+
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{pifont}
+\usepackage[normalem]{ulem}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage[mathscr]{euscript}
+\usepackage{pgfpages}
+\usepackage{listings}
+\usepackage{subfigure}
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+\usepackage{pdftricks}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{fancybox}
+% \usepackage{columns}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{tikz}
+\usepackage{colortbl}
+%\usepackage{cite} %DO NOT FUCKING USE CITE ON BEAMER !!! LOST 30 GODDAM' MINUTES ON THIS SHIT !!!
+\usepackage{mathabx}
+\usepackage{amssymb}
+\usepackage{eurosym}
+\usepackage{wasysym} % ch0
+
+\let\texteuro\euro
+
+\hypersetup{colorlinks,%
+            citecolor=black,%
+            filecolor=black,%
+            linkcolor=black,%
+            urlcolor=blue}
+
+%\addtolength{\parskip}{10pt}
+
+\usetikzlibrary{calc}
+
+\mode<presentation>
+\setbeamertemplate{footline}[frame number]
+\setbeamercovered{transparent}
+\usetheme[navigation]{ESI}
+
+%lst
+\definecolor{comment-green}{RGB}{0,166,80}
+\lstset{language=C++,
+  keywordstyle=\lst@ifdisplaystyle\bf\fi\color{blue!60},
+  commentstyle=\color{comment-green},
+  stringstyle=\color{red},
+  basicstyle=\lst@ifdisplaystyle\tiny\else\tt\fi,
+  morekeywords={
+    constexpr,concept,decltype,nullptr,nullptr_t,noexcept,final,override},
+  frame=single,
+  xleftmargin=0.5cm,
+  numbers=left,
+  tabsize=2}
+
+%title
+\subtitle{Langage \texttt{C} / \cpp}
+\author{R. Absil}
+\date{\today}

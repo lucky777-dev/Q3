@@ -1,0 +1,53 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+
+\begin{scope}[minimum width=2cm, minimum height=1cm]
+\node[draw] (A1) at (-2,0) {$A_1$};
+\node[draw] (A2) at (2,0) {$A_2$};
+\node[draw] (B1) at (-2,-2) {B1};
+\node[draw] (B2) at (2,-2) {B2};
+\node[draw] (C) at (0,-4) {C};
+
+\draw[_arc] (B1) -- (A1);
+\draw[_arc] (B2) -- (A2);
+\draw[_arc] (C) -- (0,-3) -- (-2,-3) -- (B1);
+\draw[_arc] (C) -- (0,-3) -- (2,-3) -- (B2);
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

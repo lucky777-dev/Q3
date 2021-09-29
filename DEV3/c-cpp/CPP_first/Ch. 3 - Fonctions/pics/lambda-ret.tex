@@ -1,0 +1,69 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{mathabx}
+\usepackage{listings}
+\usepackage{pgflibraryshapes}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+\node[draw] at (0,0)
+{
+\begin{lstlisting}
+[...] (int x, int y) -> int
+{
+	if(x > y)
+		return x + y;
+	else
+		return x - y;
+}
+\end{lstlisting}
+};
+
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (-1.5,1.5) -- (1.3,1.5) node [black,midway,yshift=10pt] {\footnotesize Paramètres};
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (1.5,1.5) -- (2.8,1.5) node [black,midway,yshift=10pt] {\footnotesize Retour};
+\draw [decorate,decoration={brace,mirror,amplitude=5pt},xshift=4pt,yshift=0pt] (-3.25,1) -- (-3.25,-1.5) node [black,midway,rotate=90,yshift=10pt]  {\footnotesize Corps};
+
+\node at (-2.2,3) {Syntaxe};
+\node (l) at (-0.75,2.3) {\footnotesize Liste de capture};
+\draw[_arc] (l.west) -- (-2.32,2.3) -- (-2.32,1.7);
+\end{tikzpicture}
+\end{document}

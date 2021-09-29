@@ -1,0 +1,72 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\usepackage{listings}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\begin{document}
+\begin{tikzpicture}
+\draw (-2, -1) -- (-2, 7);
+\draw (2, -1) -- (2, 7);
+
+\foreach \i in {-1,...,6}
+{
+	\draw (-2,\i) -- (2,\i);
+}
+
+\node at (0,-0.5) {$2$};
+\node at (0,0.5) {$5$};
+\node at (0,1.5) {$1$};
+\node at (0,2.5) {$7$};
+\node at (0,3.5) {$3$};
+
+\node (v4) at (-3, 7.5) {$4$};
+%\node[red] (v42) at (0, 4.5) {$4$};
+
+\draw[->,red,very thick] (v4.east) to[out=0, in=90] (0,4.5);
+
+\node at (-3,8.5) 
+{
+	\begin{lstlisting}
+stack.push(4);
+	\end{lstlisting}
+};
+\end{tikzpicture}
+\end{document}

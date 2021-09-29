@@ -1,0 +1,26 @@
+BUILD=build
+LATEX=TEXINPUTS=../common/:$(TEXINPUTS)\
+    latexmk -recorder -pdf -pdflatex="pdflatex --shell-escape %O %S" \
+    -outdir=$(BUILD)
+MAIN=slides
+HANDOUT=$(MAIN)-handout
+
+.PHONY : clean preview all latexmkbuild
+
+all: $(MAIN).pdf $(HANDOUT).pdf
+
+# This recipe is always made (because it is phony). Because we need to rely on
+# latexmk to check for file dependencies.
+latexmkbuild:
+	mkdir -p $(BUILD)
+
+%.pdf: latexmkbuild
+	$(LATEX) $(patsubst %.pdf, %.tex, $@)
+	ln -fs $(BUILD)/$@
+
+clean:
+	rm -rf $(BUILD) _minted-*
+	rm -f $(MAIN).pdf $(MAIN)-handout.pdf
+
+preview: latexmkbuild
+	$(LATEX) -pvc -interaction=nonstopmode $(MAIN).tex

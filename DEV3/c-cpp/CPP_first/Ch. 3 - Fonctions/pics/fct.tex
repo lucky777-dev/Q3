@@ -1,0 +1,66 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{mathabx}
+\usepackage{listings}
+\usepackage{pgflibraryshapes}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+\node[draw] at (0,0)
+{
+\begin{lstlisting}
+double add(double a, double b)
+{
+	return a + b;
+}
+\end{lstlisting}
+};
+
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (-3.2,0.9) -- (-1.85,0.9) node [black,midway,yshift=10pt] {\footnotesize Retour};
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (-1.75,0.9) -- (-1,0.9) node [black,midway,yshift=10pt] {\footnotesize Nom};
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (-0.8,0.9) -- (2.95,0.9) node [black,midway,yshift=10pt] {\footnotesize Paramètres};
+\draw [decorate,decoration={brace,mirror,amplitude=5pt},xshift=4pt,yshift=0pt] (-3.5,0.5) -- (-3.5,-0.9) node [black,midway,rotate=90,yshift=10pt]  {\footnotesize Corps};
+
+\node at (-3.2,2) {Prototype};
+\draw[_arc] (-3.8,1.8) -- (-3.8, 0.645) -- (-3.4,0.645);
+\end{tikzpicture}
+\end{document}

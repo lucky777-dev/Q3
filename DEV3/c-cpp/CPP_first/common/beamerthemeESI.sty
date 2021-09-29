@@ -1,0 +1,105 @@
+% Copyright 2015 by R. Absil
+% This file is under GNU GPL v3 or later.
+
+\mode<presentation>
+
+\def\beamer@themeESI@navigation{}
+
+\DeclareOptionBeamer{navigation}[true]{%
+  \def\beamer@themeESI@navigation{#1}}
+
+\ProcessOptionsBeamer
+
+\useinnertheme{rectangles}
+\usecolortheme{ESI}
+\useoutertheme[navigation=\beamer@themeESI@navigation]{ESI}
+
+%Slide table des matières en début de chaque sous-section
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Table des matières}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\setbeamertemplate{frametitlecontinuation} {\insertcontinuationcount}
+
+\institute[ESI]
+{
+  \begin{center}
+%  \vspace{-0.5cm}
+  \normalsize Haute École Bruxelles-Brabant\\
+  \small École supérieure d'Informatique\\
+%  \vspace{0.5cm}
+  \includegraphics[width=2.5cm]{pics/esi.pdf}\\
+  \end{center}
+}
+
+\beamerboxesdeclarecolorscheme{esi-blue}{esi-blue}{esi-blue}
+\beamerboxesdeclarecolorscheme{esi-green}{esi-green}{esi-green}
+
+%\let\oldsection\section
+%\renewcommand{\section}[1]
+%{
+%	\oldsection{#1}
+%	\begin{frame}
+%	   \begin{beamerboxesrounded}[scheme=esi-blue,shadow=true]{}
+%	   \begin{center}
+%	     \LARGE{\textcolor{white}{\textbf{#1}}}
+%       \end{center}
+%	   \end{beamerboxesrounded}
+%	\end{frame}
+%}
+
+%\let\Sectionmark\sectionmark
+%\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+\usepackage{nameref}
+\newcommand*{\currentname}{\@currentlabelname}
+
+\AtBeginSection[]
+{
+	\begin{frame}
+	\begin{beamerboxesrounded}[scheme=esi-blue,shadow=true]{}
+		\begin{center}
+		{\hypersetup{hidelinks}\LARGE{\textbf{\textcolor{white}{\insertsection}}}}
+	    \end{center}
+	\end{beamerboxesrounded}
+	\end{frame}
+}
+
+\newcommand{\slidesubsection}[1]{
+	\subsection{#1}
+	\begin{frame}
+	   \begin{beamerboxesrounded}[scheme=esi-blue,shadow=true]{}
+	   \begin{center}
+	     \LARGE{\textcolor{white}{\textbf{#1}}}
+       \end{center}
+	   \end{beamerboxesrounded}
+	\end{frame}
+}
+
+\lstset{%french diacrited chars for lst
+        inputencoding=utf8,
+            extendedchars=true,
+            literate=%
+            {é}{{\'{e}}}1
+            {è}{{\`{e}}}1
+            {ê}{{\^{e}}}1
+            {ë}{{\¨{e}}}1
+            {û}{{\^{u}}}1
+            {ù}{{\`{u}}}1
+            {â}{{\^{a}}}1
+            {à}{{\`{a}}}1
+            {î}{{\^{i}}}1
+            {ô}{{\^{o}}}1
+            {ç}{{\c{c}}}1
+            {Ç}{{\c{C}}}1
+            {É}{{\'{E}}}1
+            {Ê}{{\^{E}}}1
+            {À}{{\`{A}}}1
+            {Â}{{\^{A}}}1
+            {Î}{{\^{I}}}1
+    }
+
+\mode<all>

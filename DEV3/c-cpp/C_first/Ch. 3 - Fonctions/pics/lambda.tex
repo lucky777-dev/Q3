@@ -1,0 +1,65 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+\usepackage{mathabx}
+\usepackage{listings}
+\usepackage{pgflibraryshapes}
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+
+\lstset{language=c++,		
+		keywordstyle=\bf\color{blue!60},
+		commentstyle=\color{Green},
+%		basicstyle=\scriptsize,
+		tabsize=2}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\begin{document}
+\begin{tikzpicture}
+\node[draw] at (0,0)
+{
+\begin{lstlisting}
+[...] (int x, int y)
+{
+	return x + y;
+}
+\end{lstlisting}
+};
+
+\draw [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=4pt] (-0.8,0.9) -- (2.2,0.9) node [black,midway,yshift=10pt] {\footnotesize Paramètres};
+\draw [decorate,decoration={brace,mirror,amplitude=5pt},xshift=4pt,yshift=0pt] (-2.5,0.5) -- (-2.5,-0.9) node [black,midway,rotate=90,yshift=10pt]  {\footnotesize Corps};
+
+%\node at (-2.2,2) {Syntaxe};
+\node (l) at (0,1.65) {\footnotesize Liste de capture};
+\draw[_arc] (l.west) -- (-1.575,1.65) -- (-1.575,1);
+\end{tikzpicture}
+\end{document}

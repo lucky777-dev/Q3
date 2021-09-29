@@ -1,0 +1,77 @@
+% Copyright 2015 by R. Absil
+% This file is under GNU GPL v3 or later.
+
+% Based on the "infolines" outer theme.
+
+\newif\ifbeamer@ESI@navigation
+\beamer@ESI@navigationfalse
+
+\DeclareOptionBeamer{navigation}[true]{%
+  \csname beamer@ESI@navigation#1\endcsname}
+
+\ProcessOptionsBeamer
+
+
+\mode<presentation>
+
+\setbeamercolor*{author in head/foot}{parent=palette tertiary}
+\setbeamercolor*{title in head/foot}{parent=palette secondary}
+\setbeamercolor*{date in head/foot}{parent=palette primary}
+
+\setbeamercolor*{section in head/foot}{parent=palette quaternary}
+\setbeamercolor*{subsection in head/foot}{parent=palette primary}
+
+\defbeamertemplate*{footline}{ESI theme}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{%
+      author in head/foot}%
+    \usebeamerfont{author in head/foot}%
+    \insertshortauthor~~\insertshortinstitute
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.45\paperwidth,ht=2.25ex,dp=1ex,center]{%
+      title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+    \hfill
+    \raisebox{-0.5ex}{
+    \includegraphics[height=2.25ex]{pics/cc.pdf}
+    \includegraphics[height=2.25ex]{pics/by.pdf}
+    \includegraphics[height=2.25ex]{pics/nc.pdf}
+    \includegraphics[height=2.25ex]{pics/sa.pdf}}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,right]{%
+      date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\defbeamertemplate*{headline}{ESI theme}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.25\paperwidth,ht=1ex,dp=0ex]{%
+        upper separation line head left}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.75\paperwidth,ht=1ex,dp=0ex]{%
+        upper separation line head right}%
+    \end{beamercolorbox}}%
+  \vskip0pt
+  \ifbeamer@ESI@navigation
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}{section in head/foot}
+%    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+	\vskip2pt\insertsectionnavigationhorizontal{\textwidth}{}{}\vskip2pt
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+  \end{beamercolorbox}%
+  \fi
+}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+\mode
+<all>

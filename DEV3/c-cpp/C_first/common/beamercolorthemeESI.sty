@@ -1,0 +1,61 @@
+% Copyright 2015 by R. Absil
+% This file is under GNU GPL v3 or later.
+\usepackage{etoolbox}
+
+\mode<presentation>
+
+\definecolor{esi-orange}{RGB}{237, 108, 33} %outline and titles
+%\definecolor{esi-orange}{RGB}{250, 183, 33}
+\definecolor{esi-red}{RGB}{237, 108, 33} %{175, 3, 43} %for alert boxes
+%\definecolor{esi-red}{RGB}{237, 108, 33}
+%\definecolor{esi-red}{RGB}{250, 183, 33}
+\definecolor{esi-blue}{RGB}{73, 143, 200} %main color + example block
+\definecolor{esi-green}{RGB}{0, 121, 52} %block
+
+\setbeamercolor{alerted text}{fg=esi-red}
+\setbeamercolor{example text}{fg=esi-blue}
+
+\AtBeginEnvironment{block}{%
+    \setbeamercolor{itemize item}{fg=esi-green}
+    \setbeamercolor{itemize subitem}{fg=esi-green}
+    \setbeamercolor{itemize subsubitem}{fg=esi-green}
+    \setbeamercolor{enumerate item}{fg=esi-green, bg=red}
+    \setbeamercolor{enumerate subitem}{fg=esi-green}
+    \setbeamercolor{enumerate subsubitem}{fg=esi-green}
+    \setbeamercolor{item projected}{fg=white, bg=esi-green}
+}
+
+\setbeamercolor*{palette primary}{fg=black, bg=esi-blue}
+\setbeamercolor*{palette secondary}{fg=black, bg=esi-blue}
+\setbeamercolor*{palette tertiary}{fg=esi-blue!30, bg=esi-red!80!black}
+\setbeamercolor*{palette quaternary}{fg=black, bg=esi-blue!15}
+
+\setbeamercolor*{upper separation line head left}{parent=palette tertiary}
+\setbeamercolor*{upper separation line head right}{parent=palette primary}
+\setbeamercolor{title}{fg=esi-red}
+%\setbeamercolor*{titlelike}{fg=esi-red}
+\setbeamercolor{frametitle}{fg=esi-red, bg=white}
+\setbeamercolor{frametitle right}{bg=yellow!60!orange}
+\setbeamercolor{structure}{fg=esi-blue}
+
+\setbeamercolor{block title}{fg=white, bg=esi-green}
+\setbeamercolor{block body}{fg=black, bg=esi-green!15}
+\setbeamercolor{block title example}{fg=white, bg=esi-blue}
+\setbeamercolor{block body example}{fg=black, bg=esi-blue!15}
+\setbeamercolor{block title alerted}{fg=white, bg=esi-red}
+\setbeamercolor{block body alerted}{fg=black, bg=esi-red!10}
+
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+\setbeamercolor*{sidebar}{fg=esi-red,bg=orange!75!white}
+
+\setbeamercolor*{sidebar}{fg=esi-red,bg=orange!75!white}
+
+\setbeamercolor*{palette sidebar primary}{fg=esi-red!10!black}
+\setbeamercolor*{palette sidebar secondary}{fg=white}
+\setbeamercolor*{palette sidebar tertiary}{fg=esi-red!50!black}
+\setbeamercolor*{palette sidebar quaternary}{fg=yellow!10!orange}
+
+
+\mode<all>

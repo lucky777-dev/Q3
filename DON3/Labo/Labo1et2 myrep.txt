@@ -1,0 +1,9 @@
+#1.
+SELECT *
+FROM gcuv.Employe
+    WHERE EMPSAL > 85000
+    
+#2.
+SELECT EMPNOM as nom, EMPDPT as département
+FROM gcuv.Employe
+    WHERE EMPNOM LIKE '%ON%'

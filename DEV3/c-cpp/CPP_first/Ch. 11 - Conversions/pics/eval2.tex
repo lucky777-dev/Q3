@@ -1,0 +1,85 @@
+\documentclass{standalone}
+
+\usepackage[T1]{fontenc} %encoding packages
+\usepackage{textcomp}
+\usepackage[utf8x]{inputenc}
+\usepackage[french]{babel} %french typesetting package
+
+\usepackage[x11names,dvipsnames,table]{xcolor}
+\usepackage{colortbl}%more colors
+
+\usepackage{tikz}%tikz & pgf
+\usepackage{tkz-fct} %fct tkz
+\usepackage{pgfplots} %make sure floating points operations are made properly
+\usepackage{calc}
+\usepackage{pgf}
+\usepackage{ifthen} %if / then / else
+
+%make computations in tikz
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
+\usetikzlibrary{quotes}
+\usetikzlibrary{angles}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+
+\tikzstyle{_vertex}=[fill=white, circle,minimum size=12pt,inner sep=1pt]
+\tikzstyle{_blackv}=[fill=black, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_whitev}=[fill=white, circle,minimum size=8pt,inner sep=1pt]
+\tikzstyle{_dot}=[fill=black, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_wdot}=[fill=white, circle, minimum size = 1.5mm, inner sep=0pt]
+\tikzstyle{_inv}=[inner sep=0pt, minimum size=0pt]
+
+\tikzstyle{_bigvertex}=[fill=white, circle,minimum size=21pt,inner sep=1pt]
+\tikzstyle{_arc}=[->, >=stealth, very thick]
+\tikzstyle{_boldarc}=[->, >=stealth, line width=2pt]
+
+\tikzstyle{_choice}=[draw, diamond, text width=2cm, text centered, inner sep=0pt, very thick]
+\tikzstyle{_action}=[draw, text width=2cm, text centered, very thick]
+\tikzstyle{_final}=[draw, text width=2cm, text centered, ultra thick]
+
+\begin{document}
+\begin{tikzpicture}
+\node[_choice] (prot1) at (0,0) {Bon prototype ?};
+\node[_choice] (std1) at (5,0) {Conv. standard existante ?};
+\node[_choice] (cdu) at (10,0) {CDU existante ?};
+\node[_final, fill=red!60] (error) at (15, 0) {Erreur};
+
+\node[_final, fill=Green] (apply_prot) at (0,-10) {Appliquer prototype};
+
+\node[_action] (apply_conv1) at (5,-5) {Appliquer conversion};
+\node[_choice] (prot2) at (5,-10) {Bon prototype ?};
+
+\node[_action] (apply_conv2) at (10,-5) {Appliquer conversion};
+\node[_choice] (prot3) at (10,-10) {Bon prototype ?};
+
+\node[_choice] (std2) at (15,-10) {Conv. standard existante ?};
+\node[_action] (apply_conv3) at (15,-15) {Appliquer conversion};
+
+\draw[_arc] (-2,0) -- (prot1);
+
+\draw[_arc] (prot1) -- (apply_prot) node[midway, left] {Oui};
+\draw[_arc] (prot1) -- (std1) node[midway, above] {Non};
+
+\draw[_arc] (std1) -- (apply_conv1) node[midway, left] {Oui};
+\draw[_arc] (std1) -- (cdu) node[midway, above] {Non};
+
+\draw[_arc] (cdu) -- (apply_conv2) node[midway, left] {Oui};
+\draw[_arc] (cdu) -- (error) node[midway, above] {Non};
+
+\draw[_arc] (apply_conv1) -- (prot2);
+\draw[_arc] (apply_conv2) -- (prot3);
+
+\draw[_arc] (prot2) -- (apply_prot) node[midway, above] {Oui};
+\draw[very thick] (prot2) -- node[midway, above] {Non} (7.5,-10) -- (7.5, 0);
+
+\draw[very thick] (prot3) -- (10,-15) node[midway, left] {Oui};
+\draw[_arc] (prot3) -- (std2) node[midway, above] {Non};
+
+\draw[_arc] (std2) -- (error) node[midway, left] {Non};
+\draw[_arc] (std2) -- (apply_conv3) node[midway, left] {Oui};
+
+\draw[_arc] (apply_conv3) -- (0,-15) -- (apply_prot);
+\end{tikzpicture}
+\end{document}

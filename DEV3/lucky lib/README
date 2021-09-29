@@ -1,0 +1,4 @@
+sudo cp lucky.c /usr/include/
+sudo cp lucky.h /usr/include/
+
+bye ;)
