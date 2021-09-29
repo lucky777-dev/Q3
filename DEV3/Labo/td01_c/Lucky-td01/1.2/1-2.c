@@ -9,7 +9,7 @@ int main() {
     printf("Enter maximum: ");
     scanf("%d", &max);
     if (min >= max) {
-        printf("Min is not lower than max... bye");
+        printf("Min is not smaller than max... bye");
         return 0;
     }
     for (int i = min; i <= max; i++) {
