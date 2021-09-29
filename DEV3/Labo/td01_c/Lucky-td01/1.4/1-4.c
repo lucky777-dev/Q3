@@ -6,9 +6,14 @@
 int main() {
     unsigned nb1, nb2, tmp, powCpt, mult = 2;
     bool showPower;
+    int result;
     nb1 = askIntPositive("Enter an unsigned number: ");
     nb2 = askIntPositive("Enter another unsigned number: ");
-    int result = gcd(nb1, nb2);
+    if (nb1 < nb2) {
+        result = gcd(nb2, nb1);
+    } else {
+        result = gcd(nb1, nb2);
+    }
     if (result > 0) {
         printf("GCD of '%d' and '%d': %d", nb1, nb2, gcd(nb1, nb2));
     } else {
