@@ -1,0 +1,35 @@
+p {
+    color:purple;
+}
+
+.maClasse {
+    text-decoration: underline;
+}
+
+.maDeuxiemeClasse {
+    text-align: center;
+}
+
+#p4 {
+    /*background-color: aqua;*/
+}
+
+p.maClasse.maDeuxiemeClasse {
+    background-color: grey;
+}
+
+p > .vert {
+    color:green;
+}
+
+p:hover{
+    font-weight: bold;
+}
+
+p:last-child {
+    /*font-style:italic;*/
+}
+
+a:visited {
+    color:red;
+}

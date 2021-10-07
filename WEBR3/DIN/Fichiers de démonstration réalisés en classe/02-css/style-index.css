@@ -1,0 +1,21 @@
+/* Cette feuille de style s'applique au fichier
+index.html réalisé au chapitre 1 */
+
+nav, header, main, footer {
+    border-bottom: 1px solid black;
+    padding: 8px;
+}
+
+body {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    padding-left: 40px;
+}

@@ -1,0 +1,9 @@
+/*Solution de l'enseignant*/
+
+.PresentationPhotos ul {
+    list-style: none;
+}
+
+.PresentationPhotos ul li:not(:first-child) {
+    display: none;
+}
