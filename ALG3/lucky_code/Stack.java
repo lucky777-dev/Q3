@@ -1,10 +1,10 @@
-public class Stack {
+public class Stack<T> {
 
-    private int[] tab;
+    private T[] tab;
     private int topIndex;
 
     public Stack(int maxSize) {
-        this.tab = new int[maxSize];
+        this.tab = (T[])new Object[maxSize];
         this.topIndex = -1;
     }
 
