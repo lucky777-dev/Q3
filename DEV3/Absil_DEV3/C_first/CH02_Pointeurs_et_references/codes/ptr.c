@@ -11,10 +11,10 @@ int main()
 	printf("Pointer address : %p of size %lu\n", &pti, sizeof(pti));
 	//printf("i = %d, pti (%p) : %d", i, pti, *pti);
 	//printf("Pointer address : %p of size %lu\n", &pti, sizeof(pti));
-
+    
 	i++;
-    printf("i = %d, pti ( %p ) : %d\n", i, pti, *pti);
-
+    printf("i = %d, pti ( %p ) : %d\n", i, pti, *pti);    
+    
 	double d = 2.5;
 	double * ptd = &d;
 	
@@ -26,7 +26,9 @@ int main()
 
 	//void * ptv = pti;
     //printf("%lu\n", *ptv);
-    //printf("%lu\n", *((int*)ptv));
+    //int * conv = (int*)ptv;
+    //int pointed = *conv;
+    //printf("%d\n", *((int*)ptv));
 
 	int * ptn = NULL; //int * ptn = 0; //same stuff
 	int * ptinv1;

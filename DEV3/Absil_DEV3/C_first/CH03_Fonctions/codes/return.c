@@ -30,15 +30,15 @@ int main()
     printf("%d\n", f());
     //printf("%d\n", *g()); //undefined behaviour
     
-    int * pt = NULL;
-    h(pt);    
-    printf("%d\n", *pt);
+    //int * pt = NULL;
+    //h(pt);    
+    //printf("%d\n", *pt);
     
     //int b;
     //h(&b);    
     //printf("%d\n", b);
     
-    //int c;
-    //hh(&c);
-    //printf("%d\n", c);
+    int c;
+    hh(&c);
+    printf("%d\n", c);
 }

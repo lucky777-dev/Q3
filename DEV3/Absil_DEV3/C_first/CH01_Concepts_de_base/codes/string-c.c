@@ -21,19 +21,20 @@ int main()
 	//strcpy(s1, s2); //also wrong    
     //printf("%s\n", s1);
 
+
     /*
 	char result[20]; //try with other values
 
 	strcpy(result, s2);	
 	printf("%s|\n", result);
-
+    
 	strcpy(result, s1);
-	printf("%s|\n", result);
+	printf("%s|\n", result);    
     */
 
 	//strcat(s2, s1); //still wrong    
 	//strcat(s1, s2); //again, wrong
-
+    
 	char result2[strlen(s1) + strlen(s2) + 1]; //why + 1 ?
 	strcpy(result2, s1);
 	strcat(result2, s2);
