@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <limits>
 
 using namespace std;
 
@@ -14,7 +15,11 @@ constexpr long long int test(long long int n)//c++14
 {
 	int i = n;
 	while(i >= 0)
+    {
+        double k = cos(i);
+        k += 2;
 		i--;
+    }
 	return i;
 }
 
@@ -25,13 +30,13 @@ struct constN //compile time outputs
 };
 
 int main()
-{	
+{	    
 	cout << "10! = ";
 	constN<factorial(10)> out1;
 
 	cout << "PI = " << PI << endl;
 
-	cout << "test(9999999)=";
-//	constN<test(9999999)> out3;
-	cout << test(9999999) << endl;
+	cout << "test(999999)=";
+	//constN<test(999999)> out3;
+	cout << test(999999) << endl;       
 }
