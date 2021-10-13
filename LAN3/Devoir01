@@ -1,0 +1,45 @@
+Étape 1:
+
+Énumérez les catégories de périphériques intermédiaires:
+    - Catégorie connexions
+    - Catégorie périphériques finaux
+    
+Sans entrer dans le cloud internet ou intranet, combien d'icônes dans la topologie représentent des terminaux
+(une seule connexion y aboutissant)?
+    - Il y a 15 icônes représentant des terminaux
+    
+Sans compter les deux clouds, combien d'icônes dans la topologie représentent des périphériques
+intermédiaires (avec plusieurs connexions y aboutissant)?
+    - Il y a 13 icônes représentant des périphériques intermédiares
+    
+Combien de périphériques finaux ne sont pas des ordinateurs de bureau?
+    - Il y a 6 icônes qui ne représentent pas des ordinateurs de bureau
+    
+Combien de types différents de connexions avec le support cette topologie de réseau utilise-t-elle?
+    - 2 types: Câblé (cuivre et fibre) et sans fil
+    
+Étape 2:
+
+a. Dans Packet Tracer, seul le périphérique Server-PT peut faire office de serveur. Les ordinateurs de bureau ou portables ne peuvent pas être utilisés en tant que serveurs. Expliquez le modèle client-serveur
+en vous basant sur ce que vous avez appris jusqu'ici.
+    - 
+
+b. Citez au moins deux fonctions des périphériques intermédiaires.
+    - Régénérer et retransmettre les signaux de communication
+    - Diriger des données vers d'autres chemins en cas d'échec de liaison
+
+c. Citez au moins deux critères pour le choix d'un type de support réseau.
+    - Distance à parcourir, et quantité de données à envoyer (+ vitesse)
+    
+Étape 3:
+
+a. Expliquez la différence entre un LAN et un WAN. Citez des exemples à chaque fois.
+    - Un LAN est généralement utilisé dans un département au sein d'une entreprise, d'une maison ou d'un réseau de petites entreprises (Local), alors qu'un WAN est une infrastructure de réseau qui donne accès à d'autres réseaux sur une vaste zone géographique (World).
+    - Les LAN relient des périphériques finaux dans une zone limitée (école, maison etc)
+    - Les WAN relient des LAN sur des zones étendues couvrant des zones beaucoup plus grandes (villes, pays, continents..)
+    
+b. Combien voyez-vous de WAN dans le réseau Packet Tracer?
+    - J'en vois un: Internet
+    
+c. Combien voyez-vous de LAN?
+    - J'en vois trois: Central, Home office et Branch
