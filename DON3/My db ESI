@@ -1,0 +1,7 @@
+      name: g56935
+       pwd: cB (not aaaa)
+        db: monesidb
+Connect as: NORMAL
+Datasource: Oracle
+
+Change password: ALTER USER name IDENTIFIED BY new_pwd REPLACE old_pwd;
