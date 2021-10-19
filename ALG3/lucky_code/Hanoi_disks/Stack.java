@@ -21,6 +21,15 @@ public class Stack<T> {
         return this.list.remove(this.list.size() - 1);
     }
 
+    public T get(int index) {
+        if ((this.list.size() - 1) < index) {
+            //System.out.println("error: stack is empty!");
+            return null;
+        } else {
+            return this.list.get(index);
+        }
+    }
+
     public boolean isEmpty() {
         return this.list.isEmpty();
     }
