@@ -11,6 +11,8 @@ struct board {
     int *stack_A, *stack_B, *stack_C;
     unsigned nb;
     char **tab;
+    char *empty;
+    char *base;
 }; typedef struct board board;
 
 int solve(int, int*, int*, int*);

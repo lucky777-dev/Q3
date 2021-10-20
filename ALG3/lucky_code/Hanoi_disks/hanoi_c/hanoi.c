@@ -1,21 +1,25 @@
 #include "hanoi.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "util.h"
 
 board b;
 
 int main() {
     unsigned disks_nb;
-    printf("Hanoi disks\n\n");
-    printf("Enter the number of disks:");
+    clearscr();
+    printf("==========================\n|      Hanoi disks       |\n==========================\n\n");
+    printf("Enter the number of disks: ");
     scanf("%u", &disks_nb);
+    getchar(); // Clean the '\n' from previous scanf
     b.nb = disks_nb;
     init();
     clearscr();
     show();
-    sleep(1);
-    printf("Resolved in %d hits.\n", solve(b.nb-1, b.stack_A, b.stack_B, b.stack_C));
+    printf("\nPress enter to start solving");
+    getchar(); // Wait the user to press enter
+    printf("Solved in %d hits.\n", solve(b.nb-1, b.stack_A, b.stack_B, b.stack_C));
     finish();
     return 0;
 }
@@ -38,7 +42,7 @@ int solve(int n, int* start, int* inter, int* end) {
         end[index_end] = start[index_start];
         start[index_start] = -1;
         show();
-        usleep(50000);
+        usleep((int)9000000000/(pow(9, b.nb)));
         cpt += solve(n-1, inter, start, end);
     }
     return cpt;
@@ -60,59 +64,50 @@ void show() {
         if (b.stack_A[i] >= 0) {
             printf("%s", b.tab[b.stack_A[i]]);
         } else {
-            for (int i=0; i < b.nb-1; i++) {
-                printf(" ");
-            }
-            printf("|");
-            for (int i=b.nb; i<2*b.nb-1; i++) {
-                printf(" ");
-            }
+            printf("%s", b.empty);
         }
         printf("       ");
         if (b.stack_B[i] >= 0) {
             printf("%s", b.tab[b.stack_B[i]]);
         } else {
-            for (int i=0; i < b.nb-1; i++) {
-                printf(" ");
-            }
-            printf("|");
-            for (int i=b.nb; i<2*b.nb-1; i++) {
-                printf(" ");
-            }
+            printf("%s", b.empty);
         }
         printf("       ");
         if (b.stack_C[i] >= 0) {
             printf("%s", b.tab[b.stack_C[i]]);
         } else {
-            for (int i=0; i < b.nb-1; i++) {
-                printf(" ");
-            }
-            printf("|");
-            for (int i=b.nb; i<2*b.nb-1; i++) {
-                printf(" ");
-            }
+            printf("%s", b.empty);
         }
         printf("\n");
     }
-    printf("     -----------   -----------   -----------\n");
+    printf("     ");
+    printf("%s   %s   %s\n", b.base, b.base, b.base);
+    printf("\n");
 }
 
 void init() {
-    
+    // malloc stacks
     b.stack_A = (int*) malloc(sizeof(int) * b.nb);
     b.stack_B = (int*) malloc(sizeof(int) * b.nb);
     b.stack_C = (int*) malloc(sizeof(int) * b.nb);
+    // malloc 'X' view
     b.tab = (char**) malloc(sizeof(char*) * b.nb);
     for (int i=0; i < b.nb; i++) {
         b.tab[i] = (char*) malloc(sizeof(char) * (2*b.nb));
     }
+    // malloc empty disk view
+    b.empty = (char*) malloc(sizeof(char) * (2*b.nb));
+    // malloc base view
+    b.base = (char*) malloc(sizeof(char) * (6*b.nb + 18));
 
+    // Initialize stacks
     for (int i = 0; i < b.nb; i++) {
         b.stack_A[i] = b.nb-1-i;
         b.stack_B[i] = -1;
         b.stack_C[i] = -1;
     }
 
+    // Initialize 'X' view
     b.tab[b.nb][2*b.nb];
     for (int i=0; i<b.nb; i++) {
         for (int j=0; j<b.nb-1-i; j++) {
@@ -129,6 +124,21 @@ void init() {
         b.tab[i][2*b.nb - 1] = '\0';
     }
 
+    //Initialize empty disk view
+    for (int i=0; i < b.nb-1; i++) {
+        b.empty[i] = ' ';
+    }
+    b.empty[b.nb-1] = '|';
+    for (int i=b.nb; i<2*b.nb-1; i++) {
+        b.empty[i] = ' ';
+    }
+    b.empty[2*b.nb-1] = '\0';
+
+    // Initialize base view
+    for(int i=0; i<2*b.nb + 3; i++) {
+        b.base[i] = '-';
+    }
+        b.base[2*b.nb+3] = '\0';
 }
 
 void finish() {
@@ -139,4 +149,6 @@ void finish() {
         free(b.tab[i]);
     }
     free(b.tab);
+    free(b.empty);
+    free(b.base);
 }
