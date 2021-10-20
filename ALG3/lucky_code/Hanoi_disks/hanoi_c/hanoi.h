@@ -1,11 +1,21 @@
 #ifndef HANOI
 #define HANOI
-#include <stdbool.h>
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+#include <stdlib.h>
 
 struct board {
-    int stack_A[4], stack_B[4], stack_C[4];
+    int *stack_A, *stack_B, *stack_C;
+    unsigned nb;
+    char **tab;
 }; typedef struct board board;
 
-void show(board b);
+int solve(int, int*, int*, int*);
+void show();
+void init();
+void finish();
 
 #endif
