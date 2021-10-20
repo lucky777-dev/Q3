@@ -15,7 +15,7 @@ int main() {
     clearscr();
     show();
     sleep(1);
-    printf("Resolved in %d hits.\n", solve(b.nb, b.stack_A, b.stack_B, b.stack_C));
+    printf("Resolved in %d hits.\n", solve(b.nb-1, b.stack_A, b.stack_B, b.stack_C));
     finish();
     return 0;
 }
